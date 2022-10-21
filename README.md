@@ -71,3 +71,49 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
+## JWT
+
+```bash
+# 验证 安装
+yarn add class-validator class-transformer  
+
+```
+## JWT
+
+```bash
+# hash password 安装
+yarn add bcrypt 
+
+```
+## JWT
+
+```bash
+# jwt 安装
+yarn add @nestjs/jwt @nestjs/passport passport passport-jwt
+
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+
+imports:[
+  PassportModule.register({ defaultStrategy: 'jwt' }),
+  JwtModule.register({
+    secret: 'topSecret51',
+    signOptions: {
+      expiresIn: 3600,
+    }
+  }),
+]
+
+yarn add @types/passport-jwt                 
+```
+
+# 动态生成验证码
+
+```bash
+# 验证码
+yarn add svg-captcha
+
+
+```

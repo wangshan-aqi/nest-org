@@ -1,6 +1,6 @@
 export class CreateBookDto {
   email: string;
-  phone: number;
+  phone: string;
   bookAuthor: string;
-  bookNames: string;
+  works: string[];
 }
