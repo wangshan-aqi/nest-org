@@ -3,12 +3,19 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 // import helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import session from 'express-session';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.useStaticAssets(join(__dirname, 'images'), {
+    prefix: '/aqi',
+  });
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api'); // 前缀
   app.enableCors(); // 允许跨域
+  app.use(session({ secret: 'aqi', name: 'aqi.sid', rolling: true, cookie: { maxAge: 360000 } }));
   // 允许跨域 方法二
   // const app = await NestFactory.create(AppModule, { cors: true })
   //   app.use(helmet()); // 防止跨站脚本攻击

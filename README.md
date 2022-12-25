@@ -117,3 +117,67 @@ yarn add svg-captcha
 
 
 ```
+
+# 上传文件-静态目录
+- yarn add multer 
+- yarn add @types/multer -D 
+- nest g res upload
+- upload.module
+```
+import { Module } from '@nestjs/common';
+import { UploadService } from './upload.service';
+import { UploadController } from './upload.controller';
+import { MulterModule } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname, join } from 'path';
+
+@Module({
+  imports: [
+    MulterModule.register({
+      storage: diskStorage({
+        destination: join(__dirname, '../images'),
+        filename: (_, file, callback) => {
+          const fileName = `${new Date().getTime() + extname(file.originalname)}`;
+          return callback(null, fileName);
+        },
+      }),
+    }),
+  ],
+  controllers: [UploadController],
+  providers: [UploadService],
+})
+export class UploadModule {}
+
+```
+- upload.controller
+```
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { UploadService } from './upload.service';
+// import { CreateUploadDto } from './dto/create-upload.dto';
+// import { UpdateUploadDto } from './dto/update-upload.dto';
+
+@Controller('upload')
+export class UploadController {
+  constructor(private readonly uploadService: UploadService) {}
+  //  FileInterceptor 单个 FilesInterceptor 多个文件
+  @Post('album')
+  @UseInterceptors(FileInterceptor('file'))
+  Upload(@UploadedFile() file) {
+    console.log(file);
+
+    return '测试上传';
+  }
+}
+```
+## 图片读取 要在main.ts配置
+```
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
+
+app.useStaticAssets(join(__dirname, 'images'), {
+    prefix: '/aqi',
+  });
+```
+
+# 图片下载
