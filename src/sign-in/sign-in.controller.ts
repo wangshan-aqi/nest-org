@@ -10,6 +10,7 @@ export class SignInController {
     // @Inject('ABC') private readonly signInService: SignInService,
     // @Inject('Test') private readonly shop: string[],
     @Inject('Fuc') private readonly shop: string,
+    @Inject('Config') private readonly base: string,
   ) {}
 
   @Post()
@@ -19,7 +20,8 @@ export class SignInController {
 
   @Get()
   findAll() {
-    return this.shop;
+    // return this.shop;
+    return this.base;
     // return this.signInService.findAll();
   }
 

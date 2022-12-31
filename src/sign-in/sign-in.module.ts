@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { SignInService } from './sign-in.service';
 import { SignInController } from './sign-in.controller';
-
+import { Logger } from 'src/middleware';
 @Module({
   controllers: [SignInController],
   providers: [
@@ -24,4 +24,13 @@ import { SignInController } from './sign-in.controller';
     },
   ],
 })
-export class SignInModule {}
+export class SignInModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): any {
+    // consumer.apply(Logger).forRoutes('signIn');
+    // consumer.apply(Logger).forRoutes({
+    //   path: 'signIn',
+    //   method: RequestMethod.GET,
+    // });
+    consumer.apply(Logger).forRoutes(SignInController);
+  }
+}

@@ -6,12 +6,14 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import session from 'express-session';
 import { join } from 'path';
+import { MiddlewareAll } from './middleware/global';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useStaticAssets(join(__dirname, 'images'), {
     prefix: '/aqi',
   });
+  // app.use(MiddlewareAll); // 全局中间件使用
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api'); // 前缀
   app.enableCors(); // 允许跨域

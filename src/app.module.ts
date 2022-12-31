@@ -10,7 +10,7 @@ import { SignInController } from './sign-in/sign-in.controller';
 import { SignInService } from './sign-in/sign-in.service';
 import { SignInModule } from './sign-in/sign-in.module';
 import { SignUpModule } from './sign-up/sign-up.module';
-
+import modules from './config/modules';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -29,6 +29,7 @@ import { SignUpModule } from './sign-up/sign-up.module';
     UploadModule,
     SignInModule,
     SignUpModule,
+    ...modules,
   ],
   controllers: [AppController],
   providers: [AppService],
